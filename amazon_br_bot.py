@@ -20,14 +20,14 @@ def start(update: Update, context: CallbackContext):
     
     update.message.reply_text(
        """Olá, bem vindo! Gostaria de ver as novidades da Amazon? Lista de comandos disponíveis :-
-       {COMMANDS}
-    /help - Dicas de como utilizar""")
+       {}
+    /help - Dicas de como utilizar""".format(COMMANDS))
 
 
 def help(update: Update, context: CallbackContext):
     update.message.reply_text("""Esse bot tem o objetivo de fornecer links para categorias de produtos da amazon, comandos disponíveis:
-    {COMMANDS}
-    """)
+    {}
+    """.format(COMMANDS))
 
 def unknown_text(update: Update, context: CallbackContext):
     update.message.reply_text(
