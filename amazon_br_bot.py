@@ -50,6 +50,7 @@ def initializeHandlers(updater: Updater):
     updater.dispatcher.add_handler(CommandHandler('link', link_url))
     updater.dispatcher.add_handler(CommandHandler('link_livros', books_link_url))
     updater.dispatcher.add_handler(CommandHandler('link_eletronicos', eletronics_link_url))
+    updater.dispatcher.add_handler(CommandHandler('help', help))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
     updater.dispatcher.add_handler(MessageHandler(Filters.command, unknown))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown_text))
