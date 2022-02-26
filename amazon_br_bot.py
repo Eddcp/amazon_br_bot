@@ -9,23 +9,24 @@ import os
 #Constants
 PORT = int(os.environ.get('PORT', 5000))
 API_KEY = os.getenv("API_KEY", "optional-default")
+COMMANDS = """
+    /link - Link para página inicial da Amazon
+    /link_livros - Link para página de livros da Amazon
+    /link_eletronicos - Link para página de eletrônicos da Amazon
+    /ofertas_dia - Link para as ofertas do dia
+"""
   
 def start(update: Update, context: CallbackContext):
     
     update.message.reply_text(
        """Olá, bem vindo! Gostaria de ver as novidades da Amazon? Lista de comandos disponíveis :-
-    /link - Link para página inicial da Amazon
-    /link_livros - Link para página de livros da Amazon
-    /link_eletronicos - Link para página de eletrônicos da Amazon
+       {COMMANDS}
     /help - Dicas de como utilizar""")
 
 
 def help(update: Update, context: CallbackContext):
-    update.message.reply_text("""Esse bot tem o objetivo de fornecer links 
-    para categorias de produtos da amazon, comandos disponíveis:
-    /link - Link para página inicial da Amazon
-    /link_livros - Link para página de livros da Amazon
-    /link_eletronicos - Link para página de eletrônicos da Amazon
+    update.message.reply_text("""Esse bot tem o objetivo de fornecer links para categorias de produtos da amazon, comandos disponíveis:
+    {COMMANDS}
     """)
 
 def unknown_text(update: Update, context: CallbackContext):
@@ -45,12 +46,16 @@ def books_link_url(update: Update, context: CallbackContext):
 def eletronics_link_url(update: Update, context: CallbackContext):
     update.message.reply_text("https://amzn.to/3t8ras9")
 
+def day_offers(update: Update, context: CallbackContext):
+    update.message.reply_text("https://amzn.to/3phnPWI")
+
 def initializeHandlers(updater: Updater):
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CommandHandler('link', link_url))
     updater.dispatcher.add_handler(CommandHandler('link_livros', books_link_url))
     updater.dispatcher.add_handler(CommandHandler('link_eletronicos', eletronics_link_url))
     updater.dispatcher.add_handler(CommandHandler('help', help))
+    updater.dispatcher.add_handler(CommandHandler('ofertas_dia', day_offers))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
     updater.dispatcher.add_handler(MessageHandler(Filters.command, unknown))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown_text))
