@@ -9,6 +9,7 @@ import os
 
 #Constants
 PORT = int(os.environ.get('PORT', 5000))
+API_KEY = os.getenv("API_KEY", "optional-default")
   
 def start(update: Update, context: CallbackContext):
     
@@ -57,11 +58,11 @@ def initializeHandlers(updater: Updater):
 def initializeBot(updater: Updater):
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
-                          url_path=config.api_key,
-                          webhook_url='https://amazonbrbot.herokuapp.com/' + config.api_key)
+                          url_path=API_KEY,
+                          webhook_url='https://amazonbrbot.herokuapp.com/' + API_KEY)
 
 def main():
-    updater = Updater(config.api_key,
+    updater = Updater(API_KEY,
                   use_context=True)
     initializeHandlers(updater)
     initializeBot(updater)  
