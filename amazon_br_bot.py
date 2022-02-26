@@ -5,9 +5,10 @@ from telegram.ext.commandhandler import CommandHandler
 from telegram.ext.messagehandler import MessageHandler
 from telegram.ext.filters import Filters
 import config
+import os
 
-updater = Updater(config.api_key,
-                  use_context=True)
+#Constants
+PORT = int(os.environ.get('PORT', 5000))
   
 def start(update: Update, context: CallbackContext):
     
@@ -44,7 +45,7 @@ def books_link_url(update: Update, context: CallbackContext):
 def eletronics_link_url(update: Update, context: CallbackContext):
     update.message.reply_text("https://amzn.to/3t8ras9")
 
-def main():
+def initializeHandlers(updater: Updater):
     updater.dispatcher.add_handler(CommandHandler('start', start))
     updater.dispatcher.add_handler(CommandHandler('link', link_url))
     updater.dispatcher.add_handler(CommandHandler('link_livros', books_link_url))
@@ -52,7 +53,18 @@ def main():
     updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown))
     updater.dispatcher.add_handler(MessageHandler(Filters.command, unknown))
     updater.dispatcher.add_handler(MessageHandler(Filters.text, unknown_text))
-    updater.start_polling()
+
+def initializeBot(updater: Updater):
+    updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=config.api_key,
+                          webhook_url='https://amazonbrbot.herokuapp.com/' + config.api_key)
+
+def main():
+    updater = Updater(config.api_key,
+                  use_context=True)
+    initializeHandlers(updater)
+    initializeBot(updater)  
 
 if __name__ == '__main__':
     main()
