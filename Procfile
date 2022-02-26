@@ -1,1 +1,1 @@
-worker: python3 amazon_br_bot.py
+worker: python amazon_br_bot.py
